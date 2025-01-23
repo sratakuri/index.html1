@@ -17,14 +17,27 @@
         }
         .heart {
             position: absolute;
-            font-size: 50px; /* Сделал сердечки больше */
-            color: pink; /* Розовый цвет для сердечек */
+            font-size: 50px;
             opacity: 0.8;
-            animation: float 4s infinite alternate ease-in-out;
+            pointer-events: none; /* Сердечки не блокируют взаимодействие */
+            animation: move 10s infinite linear, float 5s ease-in-out infinite;
         }
+        /* Плавное колебание вверх-вниз */
         @keyframes float {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-40px); }
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+        /* Плавное движение по экрану в случайном направлении */
+        @keyframes move {
+            0% {
+                left: 0%;
+                top: 0%;
+            }
+            100% {
+                left: 100%;
+                top: 100%;
+            }
         }
         .message-box {
             position: absolute;
@@ -36,7 +49,7 @@
             font-weight: bold;
             display: flex;
             align-items: center;
-            transition: transform 0.3s;
+            z-index: 10; /* Текст будет поверх сердечек */
         }
         .close-btn {
             margin-left: 10px;
@@ -57,11 +70,10 @@
         }
         .side-cats {
             position: absolute;
-            bottom: -130px;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 30px;
             display: flex;
             align-items: center;
+            z-index: 10;
         }
         .side-cats img {
             width: 100px;
@@ -82,7 +94,8 @@
         <span id="close" class="close-btn">✖</span>
     </div>
     <div class="side-cats">
-        <img src="/mnt/data/image.png" alt="Мы">
+        <img src="https://raw.githubusercontent.com/sratakuri/index.html1/refs/heads/main/img/photo_5228812500798138915_x.jpg" alt="Мы">
+        <img src="https://raw.githubusercontent.com/sratakuri/index.html1/refs/heads/main/img/photo_5228812500798138916_x.jpg" alt="Мы">
         <span>Мы</span>
     </div>
     <script>
@@ -104,17 +117,20 @@
                 currentMessage = 0;
             }
         });
+
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = Math.random() * 100 + 'vh';
-            heart.textContent = '❤';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            heart.textContent = '💗'; // Используем символ сердечка
+            heart.style.left = Math.random() * 100 + 'vw'; // Случайная горизонтальная позиция
+            heart.style.top = Math.random() * 100 + 'vh'; // Случайная вертикальная позиция
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Случайная скорость анимации
+            heart.style.animationName = 'move'; // Даем сердечку анимацию движения
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+            setTimeout(() => heart.remove(), 15000); // Удаляем сердце через 15 секунд
         }
-        setInterval(createHeart, 100);
+
+        setInterval(createHeart, 500); // Создаем сердечко каждые 0.5 секунд
     </script>
 </body>
 </html>
